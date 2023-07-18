@@ -1,36 +1,39 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const WeatherBackground = ({ countryName }) => {
+const ACCESS_KEY = "2HvVG1KvjtbicGLI-C54_BAMfb7_0h9SMIC-joci2N4";
+
+export default function WeatherBackground {
   const [backgroundImage, setBackgroundImage] = useState("");
+  const [countryName, setCountryName] = useState("");
 
-  useEffect(() => {
-    const fetchCountryData = async () => {
-      try {
-        const response = await axios.get(
-          `https://restcountries.com/v2/name/${countryName}`
-        );
-        const country = response.data[0];
-
-        const flags = country.flags;
-        const randomIndex = Math.floor(Math.random() * flags.length);
-        const randomFlag = flags[randomIndex];
-
-        setBackgroundImage(randomFlag);
-      } catch (error) {
-        console.error("Error fetching country data:", error);
-      }
-    };
-
-    fetchCountryData();
-  }, [countryName]);
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.unsplash.com/photos/random?query=${countryName}&client_id=${ACCESS_KEY}`
+      );
+      const imageUrl = response.data.urls.regular;
+      setBackgroundImage(imageUrl);
+    } catch (error) {
+      console.error("Error fetching background image:", error);
+    }
+  };
 
   return (
-    <div
-      className="weather-background"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    ></div>
+    <div>
+      <input
+        type="text"
+        value={countryName}
+        onChange={(e) => setCountryName(e.target.value)}
+        placeholder="Enter country name"
+      />
+      <button onClick={handleSearch}>Search</button>
+      <div
+        className="weather-background"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
+      </div>
+    </div>
   );
 };
 
-export default WeatherBackground;
