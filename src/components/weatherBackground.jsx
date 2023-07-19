@@ -23,21 +23,27 @@ export default function WeatherBackground() {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={countryName}
-        onChange={(e) => setCountryName(e.target.value)}
-        placeholder="Enter country name"
-      />
-      <button onClick={handleSearch}>Search</button>
-      <div
-        className="weather-background"
-        style={{
-          backgroundImage: `url('${backgroundImage}')`,
-          backgroundSize: "cover",
-        }}
-      ></div>
+    <div
+      className="weather-background"
+      style={{
+        backgroundImage: `url('${backgroundImage}')`,
+        backgroundSize: "cover",
+      }}
+    >
+      <div className="header-input">
+        <div id="header">
+          <h1>Weather App</h1>
+        </div>
+        <div className="divInput">
+          <input
+            type="text"
+            value={countryName}
+            onChange={(e) => setCountryName(e.target.value)}
+            placeholder="Enter country name"
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+      </div>
     </div>
   );
 }
